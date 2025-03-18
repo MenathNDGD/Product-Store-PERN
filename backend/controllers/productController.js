@@ -31,7 +31,24 @@ export const createProduct = async (req, res) => {
   }
 };
 
-export const getProduct = async (req, res) => {};
+export const getProduct = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const product = await sql`SELECT * FROM products WHERE id = ${id}`;
+
+    if (!product[0]) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    res.status(200).json({ success: true, data: product[0] });
+  } catch (error) {
+    console.log("Error in getProduct", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
 
 export const updateProduct = async (req, res) => {};
 
