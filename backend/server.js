@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import { sql } from "./config/db.js";
+import productRoutes from "./routes/productRoutes.js";
 
 dotenv.config();
 
@@ -16,9 +17,7 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/api/products", productRoutes);
 
 async function initDB() {
   try {
