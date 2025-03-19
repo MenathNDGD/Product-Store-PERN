@@ -29,7 +29,11 @@ const HomePage = () => {
         </div>
       )}
 
-      {error && <div className="alert alert-error mb-8">{error}</div>}
+      {error && (
+        <div className="alert alert-error mb-8 text-xl">
+          {error} Please try again later.
+        </div>
+      )}
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
