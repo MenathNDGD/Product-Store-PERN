@@ -23,6 +23,12 @@ const HomePage = () => {
         </button>
       </div>
 
+      {!loading && products.length === 0 && (
+        <div className="alert alert-info mb-8 capitalize text-xl">
+          No products found. Add a product to get started.
+        </div>
+      )}
+
       {error && <div className="alert alert-error mb-8">{error}</div>}
 
       {loading ? (
