@@ -24,7 +24,7 @@ const HomePage = () => {
       </div>
 
       {!loading && products.length === 0 && (
-        <div className="alert alert-info mb-8 capitalize text-xl">
+        <div className="alert alert-info mb-8 text-xl">
           No products found. Add a product to get started.
         </div>
       )}
