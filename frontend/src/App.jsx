@@ -6,11 +6,15 @@ import ProductPage from "./pages/ProductPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+import { useThemeStore } from "./hooks/useThemeStore";
+
 const App = () => {
+  const { theme } = useThemeStore();
+
   return (
     <div
       className="min-h-screen bg-base-200 transition-colors duration-300"
-      data-theme="forest"
+      data-theme={theme}
     >
       <Navbar />
 
