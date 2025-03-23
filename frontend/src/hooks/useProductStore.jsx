@@ -8,6 +8,8 @@ export const useProductStore = create((set, get) => ({
   products: [],
   loading: false,
   error: null,
+  currentProduct: null,
+  isEditing: false,
   formData: {
     name: "",
     price: "",
@@ -16,6 +18,7 @@ export const useProductStore = create((set, get) => ({
 
   setFormData: (formData) => set({ formData }),
   resetForm: () => set({ formData: { name: "", price: "", image: "" } }),
+  toggleEditing: () => set((state) => ({ isEditing: !state.isEditing })),
 
   addProduct: async (e) => {
     e.preventDefault();
@@ -62,6 +65,44 @@ export const useProductStore = create((set, get) => ({
     } catch (err) {
       console.log("Error deleting product", err);
       toast.err("Product delete failed");
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  fetchProduct: async (id) => {
+    set({ loading: true });
+
+    try {
+      const response = await axios.get(`${BASE_URL}/api/products/${id}`);
+      set({
+        currentProduct: response.data.data,
+        formData: response.data.data,
+        error: null,
+      });
+    } catch (error) {
+      console.log("Error fetching product details", error);
+      set({ error: "Something went wrong", currentProduct: null });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  updateProduct: async (id) => {
+    set({ loading: true });
+
+    try {
+      const { formData } = get();
+      const response = await axios.put(
+        `${BASE_URL}/api/products/${id}`,
+        formData
+      );
+      set({ currentProduct: response.data.data, isEditing: false });
+      set({ currentProduct: response.data.data });
+      toast.success("Product updated successfully");
+    } catch (error) {
+      toast.error("Error updating product");
+      console.log("Error updating product details", error);
     } finally {
       set({ loading: false });
     }
